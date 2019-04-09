@@ -1,32 +1,37 @@
 import React, { useEffect, useContext, useState } from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import Button from '@material-ui/core/Button';
 import TableHead from '@material-ui/core/TableHead';
 import { 
-  StoreContext,
-  START_RESULTUSERS, 
-  SUCCESS_RESULTUSERS,
-  ERROR_RESULTUSERS 
-} from '../../store';
+  START_RESULTS,
+  SUCCESS_RESULTS,
+  ERROR_RESULTS,
+  HomeContext,
+} from '../../store/modules';
+import services from '../../store/services';
 import List from '../../components/List/List';
 import Loading from '../../components/Loading/Loading';
-import { apiUrl } from '../../config';
 
 const Home = ({ location, history }) => {
-  const { state: { data, loading }, dispatch } = useContext(StoreContext);
+  const { state: { data, loading }, dispatch } = useContext(HomeContext);
   const [page, changePage] = useState(0);
   const [rowsPerPage, changeRowsPerPage] = useState(10);
 
-  const fetchData = async () => {
-    dispatch({ type: START_RESULTUSERS, query: location.search });
-    const response = await fetch(`${apiUrl}/users`);
-    
-    if (response) {
-      const { users: data } = await response.json();
-      dispatch({ type: SUCCESS_RESULTUSERS, data });
-    } else {
-      dispatch({ type: ERROR_RESULTUSERS, error: 'Erro de servidor' });
+  const getResults = async () => {
+    try {
+      dispatch({ type: START_RESULTS });
+      const { data } = await services.getResults();
+      dispatch({ type: SUCCESS_RESULTS, data });
+      return { data };
+    } catch {
+      dispatch({ type: ERROR_RESULTS, error: true });
+      return { data: null, error: true }
     }
+  }
+  
+  const fetchData = () => {
+    getResults();
   }
 
   const handleChangePage = (event, page) => {
@@ -78,7 +83,14 @@ const Home = ({ location, history }) => {
     fetchData();
   }, [location.search]);
 
-  return renderContent()
+  return (
+    <div>
+      <Button variant="contained" type="submit" color="primary" onClick={() => history.push('/create')}>
+        Criar
+      </Button>
+      {renderContent()}
+    </div>
+  )
 }
 
 

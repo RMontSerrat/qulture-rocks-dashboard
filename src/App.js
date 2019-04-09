@@ -1,16 +1,18 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Home from './pages/Home/Home'
-import Repositories from './pages/Repositories/Repositories'
-import { StoreContainer, UserContainer } from './store';
+import User from './pages/User/User'
+import Create from './pages/Create/Create'
+import { HomeContainer, UserContainer } from './store/modules';
 
 const App = () =>
   <Router>
-    <StoreContainer>
+    <HomeContainer>
       <Route exact path="/" component={Home} />
-    </StoreContainer>
+    </HomeContainer>
     <UserContainer>
-      <Route path="/user/:id" component={Repositories} />
+      <Route path="/create" component={Create} />
+      <Route path="/user/:id" component={User} />
     </UserContainer>
   </Router>
 

@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
+import { withRouter } from "react-router";
 import Avatar from '@material-ui/core/Avatar';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
+import Button from '@material-ui/core/Button';
+import Loading from '../Loading/Loading';
+import ImageUpload from '../ImageUpload/ImageUpload';
 
 const Form = ({
     name,
     jobTitle,
     email,
     admissionDate,
-    id,
     image,
     onSubmit,
+    loading,
+    history,
   }) => {
 
   const [fields, changeFields] = useState({
@@ -48,28 +53,41 @@ const Form = ({
   const handleSubmit = e => {
     e.preventDefault();
     if (onSubmit) {
+      const { jobTitle, admissionDate, image, ...restFields } = fields;
       onSubmit({
-        ...fields,
-        job_title: fields.jobTitle,
-        admission_date: fields.admissionDate,
-        photo_url: fields.image,
-        id,
+        ...restFields,
+        job_title: jobTitle,
+        admission_date: admissionDate,
+        photo_url: image,
       })
     }
-  }  
+  }
+
+  const handleChangeImage = ({ preview }) => {
+    changeFields({
+      ...fields,
+      image: preview,
+    })
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       {Object.keys(fields).map(field => field === 'image' ? (
-        <Avatar alt={fields.name} src={fields[field]} />
+        <ImageUpload onChange={handleChangeImage} url={fields[field]} />
       ): (
-        <FormControl>
+        <FormControl key={field}>
           <InputLabel htmlFor={field}>{translate(field)}</InputLabel>
           <Input name={field} id={field} value={fields[field]} onChange={handleChange} />
         </FormControl>
       ))}
-      <input type="submit" value="Submit" />
+      <Button variant="contained" type="submit" color="primary">
+        {loading ? <Loading /> : 'Enviar' }
+      </Button>
+      <Button variant="contained" onClick={() => history.push('/')}>
+        Voltar
+      </Button>
     </form>
   )
 }
 
-export default Form;
+export default withRouter(Form);
