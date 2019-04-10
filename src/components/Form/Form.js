@@ -1,12 +1,40 @@
 import React, { useState } from 'react';
 import { withRouter } from "react-router";
-import Avatar from '@material-ui/core/Avatar';
+import styled from 'styled-components';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 import Loading from '../Loading/Loading';
 import ImageUpload from '../ImageUpload/ImageUpload';
+
+const ContainerInputs = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  > div {
+    padding-bottom: 20px;
+    width: 100%;
+  }
+`
+
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 0;
+`
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+  > button {
+    margin: 0 5px;
+    width: 85px;
+    height: 36px;
+  }
+`
 
 const Form = ({
     name,
@@ -57,8 +85,8 @@ const Form = ({
       onSubmit({
         ...restFields,
         job_title: jobTitle,
-        admission_date: admissionDate,
-        photo_url: image,
+        admission_date: new Date(admissionDate).toJSON().split('T')[0],
+        photo_url: null,
       })
     }
   }
@@ -70,23 +98,32 @@ const Form = ({
     })
   }
 
+  const { image: imageUrl, ...restFields } = fields;
   return (
-    <form onSubmit={handleSubmit}>
-      {Object.keys(fields).map(field => field === 'image' ? (
-        <ImageUpload onChange={handleChangeImage} url={fields[field]} />
-      ): (
-        <FormControl key={field}>
-          <InputLabel htmlFor={field}>{translate(field)}</InputLabel>
-          <Input name={field} id={field} value={fields[field]} onChange={handleChange} />
-        </FormControl>
-      ))}
-      <Button variant="contained" type="submit" color="primary">
-        {loading ? <Loading /> : 'Enviar' }
-      </Button>
-      <Button variant="contained" onClick={() => history.push('/')}>
-        Voltar
-      </Button>
-    </form>
+    <StyledForm onSubmit={handleSubmit}>
+      <ImageUpload onChange={handleChangeImage} url={imageUrl} />
+      <ContainerInputs>
+        {Object.keys(restFields).map(field => (
+          <FormControl key={field}>
+            <InputLabel htmlFor={field}>{translate(field)}</InputLabel>
+            <Input
+              name={field}
+              id={field}
+              value={restFields[field]}
+              onChange={handleChange}
+            />
+          </FormControl>
+        ))}
+        <ButtonContainer>
+          <Button variant="contained" type="submit" color="primary">
+            {loading ? <Loading color="white" size="small" /> : 'Enviar' }
+          </Button>
+          <Button variant="contained" onClick={() => history.push('/')}>
+            Voltar
+          </Button>
+        </ButtonContainer>
+      </ContainerInputs>
+    </StyledForm>
   )
 }
 

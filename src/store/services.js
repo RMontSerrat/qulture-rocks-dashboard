@@ -27,7 +27,7 @@ const createUser = async fields => {
   });
 
   if (!response.ok) {
-    return new Error();
+    throw new Error();
   }
 
   const { user: data } = await response.json();
@@ -44,9 +44,8 @@ const updateUser = async ({ id, fields }) => {
       }
     }),
   });
-
   if (!response.ok) {
-    return new Error();
+    throw new Error();
   }
 
   const { user: data } = await response.json();
@@ -55,8 +54,9 @@ const updateUser = async ({ id, fields }) => {
 
 const getUser = async id => {
   const response = await fetch(`${apiUrl}/users/${id}`);
+
   if (!response.ok) {
-    return new Error();
+    throw new Error();
   }
 
   const { user: data } = await response.json();

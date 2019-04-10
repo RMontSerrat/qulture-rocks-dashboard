@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
+import styled from 'styled-components';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
@@ -12,6 +13,23 @@ import {
 import services from '../../store/services';
 import List from '../../components/List/List';
 import Loading from '../../components/Loading/Loading';
+import Container from '../../components/Container/Container';
+import Header from '../../components/Header/Header';
+
+const StyledTableRow = styled(TableRow)`
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.07);
+  }
+`
+
+const ResultContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`
 
 const Home = ({ location, history }) => {
   const { state: { data, loading }, dispatch } = useContext(HomeContext);
@@ -65,13 +83,13 @@ const Home = ({ location, history }) => {
           )}
         >
           {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => (
-            <TableRow key={row.id} onClick={() => history.push(`/user/${row.id}`)}>
+            <StyledTableRow key={row.id} onClick={() => history.push(`/user/${row.id}`)}>
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
               <TableCell align="right">{row.job_title}</TableCell>
               <TableCell align="right">{row.email}</TableCell>
-            </TableRow>
+            </StyledTableRow>
           ))}
         </List>
       )
@@ -84,12 +102,18 @@ const Home = ({ location, history }) => {
   }, [location.search]);
 
   return (
-    <div>
-      <Button variant="contained" type="submit" color="primary" onClick={() => history.push('/create')}>
-        Criar
-      </Button>
-      {renderContent()}
-    </div>
+    <Container>
+      <Header
+      title="Usuários cadastrados"
+      renderActions={(
+        <Button variant="contained" type="submit" color="primary" onClick={() => history.push('/create')}>
+          Criar
+        </Button>
+      )} />
+      <ResultContainer>
+        {renderContent()}
+      </ResultContainer>
+    </Container>
   )
 }
 

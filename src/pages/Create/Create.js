@@ -7,6 +7,8 @@ import {
 } from '../../store/modules';
 import services from '../../store/services';
 import Form from '../../components/Form/Form';
+import Container from '../../components/Container/Container';
+import Header from '../../components/Header/Header';
 
 const Create = ({
     history,
@@ -32,7 +34,12 @@ const Create = ({
     }
   }
 
-  return <Form loading={loadingCreateUser} onSubmit={handleSubmit} />
+  return (
+    <Container>
+      <Header title="Criar novo usuário" />
+      <Form loading={loadingCreateUser} onSubmit={handleSubmit} />
+    </Container>
+  )
 }
 
 export default Create;

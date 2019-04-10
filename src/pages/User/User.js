@@ -1,4 +1,5 @@
 import React, { useEffect, useContext } from 'react';
+import Container from '../../components/Container/Container';
 import Loading from '../../components/Loading/Loading';
 import { 
   UserContext,
@@ -12,13 +13,14 @@ import {
 } from '../../store/modules';
 import Form from '../../components/Form/Form';
 import services from '../../store/services';
+import Header from '../../components/Header/Header';
 
 const Repositories = ({
     match: { params: { id } },
   }) => {
   const { state: { data, loading, loadingUpdateUser }, dispatch } = useContext(UserContext);
 
-  const updateUser = async ({ fields, id }) => {
+  const updateUser = async ({ fields }) => {
     try {
       dispatch({ type: START_UPDATE_USER });
       const { data } = await services.updateUser({ fields, id });
@@ -51,7 +53,7 @@ const Repositories = ({
   }
 
   const handleSubmit = fields => {
-    updateUser({ fields, id });
+    updateUser({ fields });
   }
 
   useEffect(() => {
@@ -60,10 +62,11 @@ const Repositories = ({
   }, []);
   
   return (
-    <div>
+    <Container>
+      <Header title="Editar usuário" />
       {loading && <Loading />}
       {data && <Form {...data} loading={loadingUpdateUser} onSubmit={handleSubmit} />}
-    </div>
+    </Container>
   )
 }
 

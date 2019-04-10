@@ -1,34 +1,27 @@
 import React, {useEffect, useState} from 'react';
 import {useDropzone} from 'react-dropzone';
+import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
 
-const thumbsContainer = {
-  display: 'flex',
-  flexDirection: 'row',
-  flexWrap: 'wrap',
-  marginTop: 16
-};
+const ThumbsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+`;
 
 const thumb = {
   display: 'inline-flex',
-  borderRadius: 2,
-  border: '1px solid #eaeaea',
+  borderRadius: 50,
   marginBottom: 8,
-  marginRight: 8,
   width: 100,
   height: 100,
-  padding: 4,
-  boxSizing: 'border-box'
-};
-
-const thumbInner = {
-  display: 'flex',
-  minWidth: 0,
-  overflow: 'hidden'
 };
 
 const img = {
   display: 'block',
-  width: 'auto',
+  width: '100%',
+  borderRadius: 50,
   height: '100%'
 };
 
@@ -49,12 +42,10 @@ const ImageUpload = ({ url, onChange }) => {
   
   const thumbs = (
     <div style={thumb} key={file.name}>
-      <div style={thumbInner}>
-        <img
-          src={file.preview}
-          style={img}
-        />
-      </div>
+      <img
+        src={file.preview}
+        style={img}
+      />
     </div>
   );
 
@@ -67,14 +58,15 @@ const ImageUpload = ({ url, onChange }) => {
   }, [file]);
 
   return (
-    <section className="container">
-      <div {...getRootProps()}>
-        <input {...getInputProps()} />
-        <aside style={thumbsContainer} className="dropzone">
-          {thumbs}
-        </aside>
-      </div>
-    </section>
+    <div {...getRootProps()}>
+      <input {...getInputProps()} />
+      <ThumbsContainer className="dropzone">
+        {thumbs}
+        <Button variant="contained">
+          {file.preview ? 'Alterar foto' : 'Adicionar foto'}
+        </Button>
+      </ThumbsContainer>
+    </div>
   );
 }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,21 +14,14 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 
-const actionsStyles = theme => ({
-  root: {
-    flexShrink: 0,
-    color: theme.palette.text.secondary,
-    marginLeft: theme.spacing.unit * 2.5,
-  },
-});
-
+const StyledTablePagination = styled.div`
+  display: flex;
+`
 const TablePaginationActions = ({
   onChangePage,
   page,
   count,
   rowsPerPage,
-  classes,
-  theme,
 }) => {
   const handleFirstPageButtonClick = event => {
     onChangePage(event, 0);
@@ -49,36 +43,36 @@ const TablePaginationActions = ({
   };
 
   return (
-    <div className={classes.root}>
+    <StyledTablePagination>
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
         aria-label="Primeira página"
       >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        {<FirstPageIcon />}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
         aria-label="Última página"
       >
-        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+        {<KeyboardArrowLeft />}
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="Pŕoxima página"
       >
-        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        {<KeyboardArrowRight />}
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="Última página"
       >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        {<LastPageIcon />}
       </IconButton>
-    </div>
+    </StyledTablePagination>
   );
 }
 
@@ -91,22 +85,10 @@ TablePaginationActions.propTypes = {
   theme: PropTypes.object.isRequired,
 };
 
-const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: true })(
-  TablePaginationActions,
-);
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-  },
-  table: {
-    minWidth: 500,
-  },
-  tableWrapper: {
-    overflowX: 'auto',
-  },
-});
+const StyledPaper = styled(Paper)`
+  width: 100%;
+  margin: 20px 0;
+`
 
 const CustomPaginationActionsTable = ({
   rowsPerPage,
@@ -119,9 +101,9 @@ const CustomPaginationActionsTable = ({
   onChangeRowsPerPage,
 }) => {
   return (
-    <Paper className={classes.root}>
-      <div className={classes.tableWrapper}>
-        <Table className={classes.table}>
+    <StyledPaper>
+      <div>
+        <Table>
           {renderHead}
           <TableBody>
             {children}
@@ -136,13 +118,13 @@ const CustomPaginationActionsTable = ({
                 page={page}
                 onChangePage={onChangePage}
                 onChangeRowsPerPage={onChangeRowsPerPage}
-                ActionsComponent={TablePaginationActionsWrapped}
+                ActionsComponent={TablePaginationActions}
               />
             </TableRow>
           </TableFooter>
         </Table>
       </div>
-    </Paper>
+    </StyledPaper>
   );
 }
 
@@ -150,4 +132,4 @@ CustomPaginationActionsTable.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CustomPaginationActionsTable);
+export default CustomPaginationActionsTable;
