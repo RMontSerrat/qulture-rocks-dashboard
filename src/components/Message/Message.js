@@ -27,7 +27,6 @@ const Message = styled.span`
 
 const StyledSnackbarContent = styled(SnackbarContent)`
   &.SnackbarContent {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     background: ${props => variantColor[props.variant]}
   }
 `

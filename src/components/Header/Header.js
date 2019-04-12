@@ -11,7 +11,6 @@ const StyledHeader = styled.div`
 `
 
 const Title = styled.h1`
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   margin: 0;
 `
 
