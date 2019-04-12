@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
@@ -9,10 +10,10 @@ import {
   SUCCESS_RESULTS,
   ERROR_RESULTS,
   HomeContext,
-} from '../../store/modules';
+} from '../../providers/UsersProvider';
 import services from '../../store/services';
 import List from '../../components/List/List';
-import Loading from '../../components/Loading/Loading';
+import LoadingContainer from '../../components/Loading/LoadingContainer';
 import Container from '../../components/Container/Container';
 import Header from '../../components/Header/Header';
 
@@ -31,28 +32,24 @@ const ResultContainer = styled.div`
   height: 100%;
 `
 
-const Home = ({ location, history }) => {
+const Users = ({ history }) => {
   const { state: { data, loading }, dispatch } = useContext(HomeContext);
   const [page, changePage] = useState(0);
   const [rowsPerPage, changeRowsPerPage] = useState(10);
 
-  const getResults = async () => {
+  const fetchData = async () => {
     try {
       dispatch({ type: START_RESULTS });
       const { data } = await services.getResults();
       dispatch({ type: SUCCESS_RESULTS, data });
       return { data };
-    } catch {
+    } catch(error) {
       dispatch({ type: ERROR_RESULTS, error: true });
-      return { data: null, error: true }
+      return { data: null, error }
     }
   }
   
-  const fetchData = () => {
-    getResults();
-  }
-
-  const handleChangePage = (event, page) => {
+  const handleChangePage = page => {
     changePage(page);
   };
 
@@ -63,7 +60,7 @@ const Home = ({ location, history }) => {
 
   const renderContent = () => {
     if (loading) {
-      return <Loading />
+      return <LoadingContainer />
     } else if (data && data.length > 0) {
       return (
         <List
@@ -99,7 +96,7 @@ const Home = ({ location, history }) => {
 
   useEffect(() => {
     fetchData();
-  }, [location.search]);
+  }, []);
 
   return (
     <Container>
@@ -117,5 +114,8 @@ const Home = ({ location, history }) => {
   )
 }
 
+Users.propTypes = {
+  history: PropTypes.object,
+}
 
-export default Home;
+export default Users;

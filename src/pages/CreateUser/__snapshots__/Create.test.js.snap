@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Create /> renders 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-bZQynM dzuZxE"
+  >
+    <div
+      class="sc-gzVnrw iDvbA"
+    >
+      <h1
+        class="sc-htoDjs jtgDDf"
+      >
+        Criar novo usuário
+      </h1>
+    </div>
+    <form
+      class="sc-ifAKCX evWMmF"
+    >
+      <div
+        tabindex="0"
+      >
+        <input
+          accept="image/*"
+          autocomplete="off"
+          multiple=""
+          style="display: none;"
+          tabindex="-1"
+          type="file"
+        />
+        <div
+          class="dropzone sc-bwzfXH OQTCy"
+        >
+          <div
+            class="sc-htpNat bmOUhP"
+          />
+          <button
+            class="MuiButtonBase-root-27 MuiButton-root-1 MuiButton-contained-12 MuiButton-raised-15"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label-2"
+            >
+              Adicionar foto
+            </span>
+            <span
+              class="MuiTouchRipple-root-89"
+            />
+          </button>
+        </div>
+      </div>
+      <div
+        class="sc-bxivhb kNYSfd"
+      >
+        <div
+          class="MuiFormControl-root-30"
+        >
+          <label
+            class="MuiFormLabel-root-45 MuiInputLabel-root-34 MuiInputLabel-formControl-39 MuiInputLabel-animated-42"
+            data-shrink="false"
+            for="name"
+          >
+            Nome
+          </label>
+          <div
+            class="MuiInputBase-root-65 MuiInput-root-52 MuiInput-underline-56 MuiInputBase-formControl-66 MuiInput-formControl-53"
+            data-testid="name"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiInputBase-input-75 MuiInput-input-60"
+              id="name"
+              name="name"
+              placeholder=""
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+        <div
+          class="MuiFormControl-root-30"
+        >
+          <label
+            class="MuiFormLabel-root-45 MuiInputLabel-root-34 MuiInputLabel-formControl-39 MuiInputLabel-animated-42"
+            data-shrink="false"
+            for="jobTitle"
+          >
+            Cargo
+          </label>
+          <div
+            class="MuiInputBase-root-65 MuiInput-root-52 MuiInput-underline-56 MuiInputBase-formControl-66 MuiInput-formControl-53"
+            data-testid="jobTitle"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiInputBase-input-75 MuiInput-input-60"
+              id="jobTitle"
+              name="jobTitle"
+              placeholder=""
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+        <div
+          class="MuiFormControl-root-30"
+        >
+          <label
+            class="MuiFormLabel-root-45 MuiInputLabel-root-34 MuiInputLabel-formControl-39 MuiInputLabel-animated-42"
+            data-shrink="false"
+            for="email"
+          >
+            E-mail
+          </label>
+          <div
+            class="MuiInputBase-root-65 MuiInput-root-52 MuiInput-underline-56 MuiInputBase-formControl-66 MuiInput-formControl-53"
+            data-testid="email"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiInputBase-input-75 MuiInput-input-60"
+              id="email"
+              name="email"
+              placeholder=""
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+        <div
+          class="MuiFormControl-root-30"
+        >
+          <label
+            class="MuiFormLabel-root-45 MuiInputLabel-root-34 MuiInputLabel-formControl-39 MuiInputLabel-animated-42"
+            data-shrink="false"
+            for="admissionDate"
+          >
+            Data de admissão
+          </label>
+          <div
+            class="MuiInputBase-root-65 MuiInput-root-52 MuiInput-underline-56 MuiInputBase-formControl-66 MuiInput-formControl-53"
+            data-testid="admissionDate"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiInputBase-input-75 MuiInput-input-60"
+              id="admissionDate"
+              name="admissionDate"
+              placeholder="dd/mm/yyyy"
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+        <div
+          class="sc-EHOje beHIK"
+        >
+          <button
+            class="MuiButtonBase-root-27 MuiButton-root-1 MuiButton-contained-12 MuiButton-containedPrimary-13 MuiButton-raised-15 MuiButton-raisedPrimary-16"
+            data-testid="submitButton"
+            tabindex="0"
+            type="submit"
+          >
+            <span
+              class="MuiButton-label-2"
+            >
+              Enviar
+            </span>
+            <span
+              class="MuiTouchRipple-root-89"
+            />
+          </button>
+          <button
+            class="MuiButtonBase-root-27 MuiButton-root-1 MuiButton-contained-12 MuiButton-raised-15"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label-2"
+            >
+              Voltar
+            </span>
+            <span
+              class="MuiTouchRipple-root-89"
+            />
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;

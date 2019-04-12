@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { withRouter } from "react-router";
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
@@ -23,6 +23,7 @@ const StyledForm = styled.form`
   flex-direction: row;
   justify-content: space-between;
   padding: 20px 0;
+  align-items: flex-start;
 `
 
 const ButtonContainer = styled.div`
@@ -36,7 +37,7 @@ const ButtonContainer = styled.div`
   }
 `
 
-const Form = ({
+const UserForm = ({
     name,
     jobTitle,
     email,
@@ -44,7 +45,7 @@ const Form = ({
     image,
     onSubmit,
     loading,
-    history,
+    onCancel,
   }) => {
 
   const [fields, changeFields] = useState({
@@ -55,18 +56,22 @@ const Form = ({
     image,
   });
 
-  const translate = field => {
-    switch(field) {
-      case 'name':
-        return 'Nome';
-      case 'email':
-        return 'E-mail';
-      case 'jobTitle':
-        return 'Cargo';
-      case 'admissionDate':
-        return 'Data de admissão';
-      default:
-        return field;
+  const availableFields = {
+    name: {
+      value: 'Nome',
+      placeholder: '',
+    },
+    email: {
+      value: 'E-mail',
+      placeholder: '',
+    },
+    jobTitle: {
+      value: 'Cargo',
+      placeholder: '',
+    },
+    admissionDate: {
+      value: 'Data de admissão',
+      placeholder: 'dd/mm/yyyy',
     }
   }
 
@@ -78,6 +83,15 @@ const Form = ({
     });
   }
 
+  const getDate = date => {
+    const splittedDate = date.split('/');
+    const day = splittedDate[0];
+    const month = splittedDate[1];
+    const year = splittedDate[2];
+
+    return `${year}-${month}-${day}`;
+  }
+
   const handleSubmit = e => {
     e.preventDefault();
     if (onSubmit) {
@@ -85,8 +99,8 @@ const Form = ({
       onSubmit({
         ...restFields,
         job_title: jobTitle,
-        admission_date: new Date(admissionDate).toJSON().split('T')[0],
-        photo_url: null,
+        admission_date: getDate(admissionDate),
+        photo_url: image || '',
       })
     }
   }
@@ -105,20 +119,22 @@ const Form = ({
       <ContainerInputs>
         {Object.keys(restFields).map(field => (
           <FormControl key={field}>
-            <InputLabel htmlFor={field}>{translate(field)}</InputLabel>
+            <InputLabel htmlFor={field}>{availableFields[field].value}</InputLabel>
             <Input
               name={field}
               id={field}
               value={restFields[field]}
+              data-testid={field}
               onChange={handleChange}
+              placeholder={availableFields[field].placeholder}
             />
           </FormControl>
         ))}
         <ButtonContainer>
-          <Button variant="contained" type="submit" color="primary">
+          <Button data-testid="submitButton" variant="contained" type="submit" color="primary">
             {loading ? <Loading color="white" size="small" /> : 'Enviar' }
           </Button>
-          <Button variant="contained" onClick={() => history.push('/')}>
+          <Button variant="contained" onClick={onCancel}>
             Voltar
           </Button>
         </ButtonContainer>
@@ -127,4 +143,15 @@ const Form = ({
   )
 }
 
-export default withRouter(Form);
+UserForm.propTypes = {
+  name: PropTypes.string,
+  jobTitle: PropTypes.string,
+  email: PropTypes.string,
+  admissionDate: PropTypes.string,
+  image: PropTypes.string,
+  onSubmit: PropTypes.func,
+  onCancel: PropTypes.func,
+  loading: PropTypes.bool,
+}
+
+export default UserForm;

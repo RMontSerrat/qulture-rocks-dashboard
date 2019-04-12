@@ -1,21 +1,25 @@
 import React, { createContext, useReducer } from 'react';
 import { makeUser } from './selectors';
 
-export const START_RESULTS = 'startResultUsers';
-export const SUCCESS_RESULTS = 'successResultUsers';
-export const ERROR_RESULTS = 'errorResultUsers';
-export const START_RESULT_USER = 'startResultRepositories';
-export const SUCCESS_RESULT_USER = 'successResultRepositories';
-export const ERROR_RESULT_USER = 'errorResultRepositories';
+export const START_RESULTS = 'startResults';
+export const SUCCESS_RESULTS = 'successResults';
+export const ERROR_RESULTS = 'errorResults';
+export const START_RESULT_USER = 'startResultUser';
+export const SUCCESS_RESULT_USER = 'successResultUser';
+export const ERROR_RESULT_USER = 'errorResultUser';
 export const RESET_USERS = 'resetUsers';
 
 export const START_UPDATE_USER = 'startUpdateUser';
 export const SUCCESS_UPDATE_USER = 'successUpdateUser';
 export const ERROR_UPDATE_USER = 'errorUpdateUser';
+export const DISMISS_ERROR_UPDATE_USER = 'dismissErrorUpdateUser';
+export const DISMISS_SUCCESS_UPDATE_USER = 'dismissSuccessUpdateUser';
 
 export const START_CREATE_USER = 'startCreateUser';
 export const SUCCESS_CREATE_USER = 'successCreateUser';
 export const ERROR_CREATE_USER = 'errorCreateUser';
+export const DISMISS_ERROR_CREATE_USER = 'dismissErrorCreateUser';
+export const RESET_CREATE_USER = 'resetCreateUser';
 
 const initialState = {
   data: null,
@@ -24,18 +28,25 @@ const initialState = {
   currentUser: null,
 }
 
-const userInitialState = {
+const editUserInitialState = {
   data: null,
-  loading: false,
-  error: false,
+  loadingGetUser: false,
+  errorGetUser: false,
   loadingUpdateUser: false,
   errorUpdateUser: false,
-  loadingCreateUser: false,
-  errorCreateUser: false,
+  successUpdateUser: false,
+}
+
+const createUserInitialState = {
+  userId: null,
+  loading: false,
+  error: false,
+  success: false,
 }
 
 export const HomeContext = createContext(initialState);
-export const UserContext = createContext(userInitialState);
+export const EditUserContext = createContext(editUserInitialState);
+export const CreateUserContext = createContext(createUserInitialState);
 
 export const reducer = (state, action) => {
   switch (action.type) {
@@ -66,18 +77,18 @@ export const userReducer = (state, action) => {
     case START_RESULT_USER:
       return {
         ...state,
-        loading: true,
+        loadingGetUser: true,
       };
     case SUCCESS_RESULT_USER:
       return {
         ...state,
-        loading: false,
+        loadingGetUser: false,
         data: makeUser(action.data),
       };
     case ERROR_RESULT_USER:
       return {
         ...state,
-        loading: false,
+        loadingGetUser: false,
         error: action.error,
       };
     case START_UPDATE_USER:
@@ -90,6 +101,7 @@ export const userReducer = (state, action) => {
         ...state,
         loadingUpdateUser: false,
         data: makeUser(action.data),
+        successUpdateUser: true,
       };
     case ERROR_UPDATE_USER:
       return {
@@ -97,22 +109,15 @@ export const userReducer = (state, action) => {
         loadingUpdateUser: false,
         errorUpdateUser: action.error,
       };
-    case START_CREATE_USER:
+    case DISMISS_ERROR_UPDATE_USER:
       return {
         ...state,
-        loadingCreateUser: true,
+        errorUpdateUser: false,
       };
-    case SUCCESS_CREATE_USER:
+    case DISMISS_SUCCESS_UPDATE_USER:
       return {
         ...state,
-        loadingCreateUser: false,
-        data: makeUser(action.data),
-      };
-    case ERROR_CREATE_USER:
-      return {
-        ...state,
-        loading: false,
-        errorCreateUser: action.error,
+        successUpdateUser: false,
       };
     case RESET_USERS:
       return {
@@ -125,7 +130,39 @@ export const userReducer = (state, action) => {
   }
 }
 
-export const HomeContainer = ({ children }) => {
+export const createUserReducer = (state, action) => {
+  switch (action.type) {
+    case START_CREATE_USER:
+      return {
+        ...state,
+        loading: true,
+      };
+    case SUCCESS_CREATE_USER:
+      return {
+        ...state,
+        loading: false,
+        userId: action.data.id,
+        success: true,
+      };
+    case ERROR_CREATE_USER:
+      return {
+        ...state,
+        loading: false,
+        error: action.error,
+      };
+    case DISMISS_ERROR_CREATE_USER:
+      return {
+        ...state,
+        error: false,
+      };
+    case RESET_CREATE_USER:
+      return createUserInitialState;
+    default:
+      throw new Error();
+  }
+}
+
+export const HomeProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <HomeContext.Provider value={{state, dispatch}}>
@@ -134,11 +171,20 @@ export const HomeContainer = ({ children }) => {
   )
 }
 
-export const UserContainer = ({ children }) => {
-  const [state, dispatch] = useReducer(userReducer, userInitialState);
+export const EditUserProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(userReducer, editUserInitialState);
   return (
-    <UserContext.Provider value={{state, dispatch}}>
+    <EditUserContext.Provider value={{state, dispatch}}>
       {children}
-    </UserContext.Provider>
+    </EditUserContext.Provider>
+  )
+}
+
+export const CreateUserProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(createUserReducer, createUserInitialState);
+  return (
+    <CreateUserContext.Provider value={{state, dispatch}}>
+      {children}
+    </CreateUserContext.Provider>
   )
 }

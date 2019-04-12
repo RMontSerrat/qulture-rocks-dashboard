@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
 import {useDropzone} from 'react-dropzone';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
+import fallbackImage from './fallback-image.png';
 
 const ThumbsContainer = styled.div`
   display: flex;
@@ -10,27 +12,20 @@ const ThumbsContainer = styled.div`
   align-items: center;
 `;
 
-const thumb = {
-  display: 'inline-flex',
-  borderRadius: 50,
-  marginBottom: 8,
-  width: 100,
-  height: 100,
-};
+const Image = styled.div`
+  display: inline-flex;
+  border-radius: 50px;
+  margin-bottom: 10px;
+  width: 100px;
+  height: 100px;
+  background-image: ${props => `url(${props.background})`};
+  background-size: 100% auto;
+`
 
-const img = {
-  display: 'block',
-  width: '100%',
-  borderRadius: 50,
-  height: '100%'
-};
-
-
-const ImageUpload = ({ url, onChange }) => {
+const ImageUpload = ({ url = fallbackImage, onChange }) => {
   const [file, setFile] = useState({
     preview: url,
   });
-
   const {getRootProps, getInputProps} = useDropzone({
     accept: 'image/*',
     onDrop: acceptedFiles => {
@@ -40,18 +35,8 @@ const ImageUpload = ({ url, onChange }) => {
     }
   });
   
-  const thumbs = (
-    <div style={thumb} key={file.name}>
-      <img
-        src={file.preview}
-        style={img}
-      />
-    </div>
-  );
-
   useEffect(() => () => {
-    // Make sure to revoke the data uris to avoid memory leaks
-    URL.revokeObjectURL(file.preview);
+    URL.revokeObjectURL && URL.revokeObjectURL(file.preview);
     if (onChange) {
       onChange(file);
     }
@@ -61,13 +46,18 @@ const ImageUpload = ({ url, onChange }) => {
     <div {...getRootProps()}>
       <input {...getInputProps()} />
       <ThumbsContainer className="dropzone">
-        {thumbs}
+        <Image background={file.preview || fallbackImage} />
         <Button variant="contained">
-          {file.preview ? 'Alterar foto' : 'Adicionar foto'}
+          {file.preview === fallbackImage ? 'Adicionar foto' : 'Alterar foto'}
         </Button>
       </ThumbsContainer>
     </div>
   );
+}
+
+ImageUpload.propTypes = {
+  url: PropTypes.string,
+  onChange: PropTypes.func,
 }
 
 export default ImageUpload;

@@ -1,19 +1,23 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import Home from './pages/Home/Home'
-import User from './pages/User/User'
-import Create from './pages/Create/Create'
-import { HomeContainer, UserContainer } from './store/modules';
+import Users from './pages/Users/Users'
+import EditUser from './pages/EditUser/EditUser'
+import CreateUser from './pages/CreateUser/CreateUser'
+import CreateUserProvider from './providers/CreateUserProvider';
+import UsersProvider from './providers/UsersProvider';
+import EditUserProvider from './providers/EditUserProvider';
 
 const App = () =>
   <Router>
-    <HomeContainer>
-      <Route exact path="/" component={Home} />
-    </HomeContainer>
-    <UserContainer>
-      <Route path="/create" component={Create} />
-      <Route path="/user/:id" component={User} />
-    </UserContainer>
+    <UsersProvider>
+      <Route exact path="/" component={Users} />
+    </UsersProvider>
+    <EditUserProvider>
+      <Route path="/user/:id" component={EditUser} />
+    </EditUserProvider>
+    <CreateUserProvider>
+      <Route path="/create" component={CreateUser} />
+    </CreateUserProvider>
   </Router>
 
 export default App;

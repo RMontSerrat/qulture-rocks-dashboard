@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<User /> renders 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-bdVaJa bcGXPv"
+  >
+    <div
+      class="sc-htoDjs ecUKWI"
+    >
+      <h1
+        class="sc-dnqmqq iPrvCx"
+      >
+        Editar usuário
+      </h1>
+    </div>
+    <div
+      class="sc-gqjmRU gpEttY"
+      data-testid="resultContainer"
+    />
+  </div>
+</DocumentFragment>
+`;

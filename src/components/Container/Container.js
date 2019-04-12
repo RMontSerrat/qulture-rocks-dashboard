@@ -7,14 +7,6 @@ const Container = styled.div`
   padding: 30px;
   flex-direction: column;
   width: 100%;
-  .Loading {
-    position: absolute;
-    margin: auto;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-  }
 `
 
 export default Container;

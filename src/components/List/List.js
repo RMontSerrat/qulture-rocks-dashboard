@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableFooter from '@material-ui/core/TableFooter';
@@ -17,27 +16,26 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 const StyledTablePagination = styled.div`
   display: flex;
 `
-const TablePaginationActions = ({
+export const TablePaginationActions = ({
   onChangePage,
   page,
   count,
   rowsPerPage,
 }) => {
   const handleFirstPageButtonClick = event => {
-    onChangePage(event, 0);
+    onChangePage(0);
   };
 
   const handleBackButtonClick = event => {
-    onChangePage(event, page - 1);
+    onChangePage(page - 1);
   };
 
   const handleNextButtonClick = event => {
-    onChangePage(event, page + 1);
+    onChangePage(page + 1);
   };
 
   const handleLastPageButtonClick = event => {
     onChangePage(
-      event,
       Math.max(0, Math.ceil(count / rowsPerPage) - 1),
     );
   };
@@ -77,26 +75,23 @@ const TablePaginationActions = ({
 }
 
 TablePaginationActions.propTypes = {
-  classes: PropTypes.object.isRequired,
-  count: PropTypes.number.isRequired,
-  onChangePage: PropTypes.func.isRequired,
-  page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
-  theme: PropTypes.object.isRequired,
-};
+  onChangePage: PropTypes.func,
+  rowsPerPage: PropTypes.number,
+  page: PropTypes.number,
+  count: PropTypes.number,
+}
 
 const StyledPaper = styled(Paper)`
   width: 100%;
   margin: 20px 0;
 `
 
-const CustomPaginationActionsTable = ({
+const List = ({
   rowsPerPage,
   page,
   count,
   renderHead,
   children,
-  classes,
   onChangePage,
   onChangeRowsPerPage,
 }) => {
@@ -111,7 +106,6 @@ const CustomPaginationActionsTable = ({
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
                 colSpan={3}
                 count={count}
                 rowsPerPage={rowsPerPage}
@@ -119,6 +113,7 @@ const CustomPaginationActionsTable = ({
                 onChangePage={onChangePage}
                 onChangeRowsPerPage={onChangeRowsPerPage}
                 ActionsComponent={TablePaginationActions}
+                labelRowsPerPage={<span>Linhas por página</span>}
               />
             </TableRow>
           </TableFooter>
@@ -128,8 +123,14 @@ const CustomPaginationActionsTable = ({
   );
 }
 
-CustomPaginationActionsTable.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+List.propTypes = {
+  rowsPerPage: PropTypes.number,
+  page: PropTypes.number,
+  count: PropTypes.number,
+  renderHead: PropTypes.node,
+  children: PropTypes.node,
+  onChangePage: PropTypes.func,
+  onChangeRowsPerPage: PropTypes.func,
+}
 
-export default CustomPaginationActionsTable;
+export default List;
