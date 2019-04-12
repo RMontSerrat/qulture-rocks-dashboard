@@ -8,7 +8,7 @@ import {
   DISMISS_ERROR_CREATE_USER,
   RESET_CREATE_USER,
 } from '../../providers/CreateUserProvider';
-import services from '../../store/services';
+import services from '../../services/user';
 import UserForm from '../../components/UserForm/UserForm';
 import Container from '../../components/Container/Container';
 import Header from '../../components/Header/Header';

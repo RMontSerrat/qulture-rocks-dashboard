@@ -16,7 +16,7 @@ import {
   RESET_USERS,
 } from '../../providers/EditUserProvider';
 import UserForm from '../../components/UserForm/UserForm';
-import services from '../../store/services';
+import services from '../../services/user';
 import Header from '../../components/Header/Header';
 import ErrorMessage from '../../components/Message/ErrorMessage';
 import SuccessMessage from '../../components/Message/SuccessMessage';

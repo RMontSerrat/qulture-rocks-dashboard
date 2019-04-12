@@ -11,7 +11,7 @@ import {
   ERROR_RESULTS,
   HomeContext,
 } from '../../providers/UsersProvider';
-import services from '../../store/services';
+import services from '../../services/user';
 import List from '../../components/List/List';
 import LoadingContainer from '../../components/Loading/LoadingContainer';
 import Container from '../../components/Container/Container';
