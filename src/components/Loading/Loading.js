@@ -54,7 +54,7 @@ const Loading = ({ size = 'large', color = '#bababa' }) => (
 )
 
 Loading.propTypes = {
-  size: PropTypes.oneOf(Object.values(sizes)),
+  size: PropTypes.oneOf(Object.keys(sizes)),
   color: PropTypes.string,
 }
 

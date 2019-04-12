@@ -1,4 +1,5 @@
 import React, { createContext, useReducer } from 'react';
+import PropTypes from 'prop-types';
 
 export const START_RESULTS = 'startResults';
 export const SUCCESS_RESULTS = 'successResults';
@@ -44,6 +45,10 @@ const UsersProvider = ({ children }) => {
       {children}
     </HomeContext.Provider>
   )
+}
+
+UsersProvider.propTypes = {
+  children: PropTypes.node,
 }
 
 export default UsersProvider;

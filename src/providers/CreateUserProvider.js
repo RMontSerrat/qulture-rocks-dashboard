@@ -1,4 +1,5 @@
 import React, { createContext, useReducer } from 'react';
+import PropTypes from 'prop-types';
 
 export const START_CREATE_USER = 'startCreateUser';
 export const SUCCESS_CREATE_USER = 'successCreateUser';
@@ -54,6 +55,10 @@ const CreateUserProvider = ({ children }) => {
       {children}
     </CreateUserContext.Provider>
   )
+}
+
+CreateUserProvider.propTypes = {
+  children: PropTypes.node,
 }
 
 export default CreateUserProvider;

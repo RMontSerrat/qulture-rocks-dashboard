@@ -1,4 +1,5 @@
 import React, { createContext, useReducer } from 'react';
+import PropTypes from 'prop-types';
 import { makeUser } from '../selectors/user';
 
 export const START_RESULT_USER = 'startResultUser';
@@ -88,6 +89,10 @@ const EditUserProvider = ({ children }) => {
       {children}
     </EditUserContext.Provider>
   )
+}
+
+EditUserProvider.propTypes = {
+  children: PropTypes.node,
 }
 
 export default EditUserProvider;
